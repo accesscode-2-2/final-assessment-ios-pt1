@@ -70,7 +70,7 @@ MKMapViewDelegate
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
     
-    NSLog(@"%@", name);
+   
     cell.textLabel.text = name;
     
     return cell;
@@ -113,7 +113,7 @@ MKMapViewDelegate
                                      
                                  }];
     
-     NSLog(@"Ven: %@", self.venues);
+//     NSLog(@"Ven: %@", self.venues);
 }
 
 
@@ -122,7 +122,7 @@ MKMapViewDelegate
 {
    
     
-   // [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];

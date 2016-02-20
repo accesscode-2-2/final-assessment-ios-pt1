@@ -44,28 +44,9 @@
              NSDictionary *response = [responseObject objectForKey:@"response"];
              NSArray *venues = [response objectForKey:@"venues"];
              
-             // loop through all json posts
-             for (NSDictionary *venue in venues) {
-                
-                 NSString *name = venue[@"name"];
-                 float latitude = [venue[@"location"][@"lat"]floatValue];
-                 float longitude = [venue[@"location"][@"lng"]floatValue];
-
-                 
-//                  NSLog(@"%@", name);
-//                  NSLog(@"lat: %f lng: %f", latitude, longitude);
-                
-             }
-
-             
-             
-            
              completion(venues);
              
-             
-             
-        
-    } failure:^(NSURLSessionTask *operation, NSError *error)
+         } failure:^(NSURLSessionTask *operation, NSError *error)
     {
         NSLog(@"Error: %@", error);
     }];
