@@ -37,6 +37,7 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
     
     self.locationManager = [[CLLocationManager alloc] init];
 }
@@ -44,6 +45,7 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
