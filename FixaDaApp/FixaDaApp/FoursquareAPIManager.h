@@ -12,7 +12,7 @@
 @interface FoursquareAPIManager : NSObject
 
 + (void)findSomething:(NSString *)query
-           atLocation:(CLLocation *)location
+           atLocation:(CLLocationCoordinate2D *)location
            completion:(void(^)(NSArray *data))completion;
 
 @end

@@ -38,7 +38,14 @@
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
+     
     {
+        NSDictionary *venue = [[responseObject objectForKey:@"response"]objectForKey:@"venues"];
+//        NSString *name = [venue objectForKey:@"name"];
+        
+        
+        NSLog(@"%@", responseObject);
+
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {

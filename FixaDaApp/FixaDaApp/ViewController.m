@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface ViewController ()
 <
@@ -38,12 +39,17 @@ MKMapViewDelegate
     
     self.mapView.delegate = self;
     
+    self.mapView.showsUserLocation = YES;
     self.locationManager = [[CLLocationManager alloc] init];
+    
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestAlwaysAuthorization];
 }
 
 
@@ -56,7 +62,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,7 +90,7 @@ MKMapViewDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.05f,0.05f);
+    MKCoordinateSpan span = MKCoordinateSpanMake(.9,.9);
     CLLocationCoordinate2D coordinate = location.coordinate;
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
@@ -95,7 +101,7 @@ MKMapViewDelegate
 {
         __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
-                                 atLocation:location
+                                 atLocation:(__bridge CLLocationCoordinate2D *)(location)
                                  completion:^(NSArray *data){
                                      
                                      weakSelf.venues = data;
@@ -107,7 +113,7 @@ MKMapViewDelegate
 
 - (void)showPins
 {
-    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView addAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
