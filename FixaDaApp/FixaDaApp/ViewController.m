@@ -26,15 +26,13 @@ MKMapViewDelegate
 
 @property (nonatomic) NSArray *venues;
 
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
     
@@ -44,6 +42,7 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,15 +55,15 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
-    NSDictionary *venue = self.venues[indexPath.row];
-    NSString *name = venue[@"name"];
+
+    NSString *name = self.venues[indexPath.row][@"name"];
     cell.textLabel.text = name;
     
     return cell;
@@ -96,12 +95,11 @@ MKMapViewDelegate
         __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
-                                 completion:^(NSArray *data){
-                                     
-                                     weakSelf.venues = data;
+                                 completion:^(id  data){
+                                     weakSelf.venues = data[@"response"][@"venues"];
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
-                                     
+                                     [weakSelf.tableView reloadData];
                                  }];
 }
 
