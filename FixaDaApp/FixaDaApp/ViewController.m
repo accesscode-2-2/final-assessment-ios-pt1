@@ -33,6 +33,10 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.venues = [[NSArray alloc] init];
+    
+    self.foundPlaces = NO;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -42,10 +46,22 @@ MKMapViewDelegate
     
     self.mapView.showsUserLocation = YES;
     
+//    [self fetchVenuesAtLocation:userLocation.location];
+
+    
+//    self.foundPlaces = YES;
+    
+
     //just added
     [self.tableView reloadData];
     
 //    [self fetchVenuesAtLocation:location];
+    
+//    [self fetchVenuesAtLocation:];
+    
+    [self showPins];
+    
+    [self mapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,10 +69,8 @@ MKMapViewDelegate
     [super viewDidAppear:animated];
     
     [self.locationManager requestWhenInUseAuthorization];
-        
-
+    
 }
-
 
 # pragma mark - Table view datasource
 
@@ -113,8 +127,11 @@ MKMapViewDelegate
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
-                                     
+                                     //added line
+                                     [weakSelf mapView];
                                  }];
+    //added line
+//    [self mapView];
 }
 
 - (void)showPins
@@ -129,7 +146,11 @@ MKMapViewDelegate
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+        //added line
+        point.title = venue[@"name"];
+
     }
+
 }
 
 @end
