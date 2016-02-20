@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
