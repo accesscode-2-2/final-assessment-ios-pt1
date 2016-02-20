@@ -98,11 +98,14 @@ MKMapViewDelegate
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    MapTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    NSLog(@"cell %@",cell.textLabel.text);
-
-}
+    for(MKPointAnnotation *annotation in [self.mapView annotations]) {
+        if ([cell.title.text isEqualToString:annotation.title]) {
+            [self.mapView selectAnnotation:annotation animated:YES];
+        }
+    }
+ }
 
 # pragma mark - Map view delegate
 
