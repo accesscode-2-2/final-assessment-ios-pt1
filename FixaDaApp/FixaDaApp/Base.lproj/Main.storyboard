@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QhC-Y4-i8h">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="180"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                             </mapView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BMq-V3-f2f">
-                                <rect key="frame" x="0.0" y="180" width="600" height="420"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BMq-V3-f2f">
+                                <rect key="frame" x="0.0" y="316" width="600" height="284"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BeepBoopCellIdentifier" textLabel="4Wd-lS-p0j" style="IBUITableViewCellStyleDefault" id="5cm-8d-a5a">
@@ -53,9 +53,15 @@
                             <constraint firstItem="BMq-V3-f2f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PGd-F5-XwA"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PS4-bX-CJK"/>
                             <constraint firstAttribute="trailing" secondItem="QhC-Y4-i8h" secondAttribute="trailing" id="mbZ-IW-xGJ"/>
+                            <constraint firstItem="QhC-Y4-i8h" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="nnA-n6-QoU"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="sq5-GT-TWp"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BMq-V3-f2f" secondAttribute="bottom" id="vLg-lx-GXH"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DcL-ga-xdl"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="QhC-Y4-i8h" id="SMQ-g7-itJ"/>
