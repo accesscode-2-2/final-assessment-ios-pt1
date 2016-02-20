@@ -44,9 +44,20 @@
              NSDictionary *response = [responseObject objectForKey:@"response"];
              NSArray *venues = [response objectForKey:@"venues"];
              
+             // loop through all json posts
+             for (NSDictionary *venue in venues) {
+                
+                 NSString *name = venue[@"name"];
+                 
+                 
+                 NSLog(@"%@", name);
+                
+             }
+
              
-             NSDictionary *venueName = [venues objectAtIndex:1];
-             NSLog(@"Dict: %@", venueName);
+             
+            
+             
              
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
