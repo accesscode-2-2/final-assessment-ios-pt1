@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -33,17 +34,25 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.venues = [[NSArray alloc] init];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];
+    self.mapView.showsUserLocation = YES;
+
 }
 
 
@@ -56,7 +65,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,6 +83,7 @@ MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
+    
     if (!self.foundPlaces) {
         self.foundPlaces = YES;
         

@@ -40,6 +40,10 @@
          success:^(NSURLSessionTask *task, id responseObject)
     {
         
+        NSArray *venues = responseObject[@"response"][@"venues"];
+        
+        completion(venues);
+        
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
         NSLog(@"Error: %@", error);
