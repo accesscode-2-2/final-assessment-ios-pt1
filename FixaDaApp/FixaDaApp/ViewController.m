@@ -63,7 +63,7 @@ MKMapViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier" forIndexPath:indexPath];
     
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
