@@ -9,21 +9,14 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface ViewController ()
-<
-UITableViewDataSource,
-UITableViewDelegate,
-MKMapViewDelegate
->
+@interface ViewController () <UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (nonatomic) CLLocationManager *locationManager;
-
 @property (nonatomic, assign) BOOL foundPlaces;
-
 @property (nonatomic) NSArray *venues;
 
 @end
@@ -35,15 +28,18 @@ MKMapViewDelegate
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
     self.mapView.delegate = self;
     
+    self.mapView.showsUserLocation = YES;
     self.locationManager = [[CLLocationManager alloc] init];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewDidAppear:YES];
+    [self.locationManager requestAlwaysAuthorization];
+    
 }
 
 
@@ -56,15 +52,16 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellIdentifier"];
     
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
+    
     cell.textLabel.text = name;
     
     return cell;
@@ -79,6 +76,7 @@ MKMapViewDelegate
         
         [self zoomToLocation:userLocation.location];
         [self fetchVenuesAtLocation:userLocation.location];
+        [self showPins];
     }
 }
 
@@ -103,6 +101,9 @@ MKMapViewDelegate
                                      [weakSelf showPins];
                                      
                                  }];
+    
+    
+    
 }
 
 - (void)showPins
