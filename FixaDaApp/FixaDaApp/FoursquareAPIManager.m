@@ -25,6 +25,9 @@
  
 **/
 
+
+
+
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
@@ -37,8 +40,14 @@
     [manager GET:url
       parameters:nil
         progress:nil
-         success:^(NSURLSessionTask *task, id responseObject)
-    {
+         success:^(NSURLSessionTask *task, id responseObject){
+             NSDictionary *response = [responseObject objectForKey:@"response"];
+             NSArray *venues = [response objectForKey:@"venues"];
+             
+             
+             NSDictionary *venueName = [venues objectAtIndex:1];
+             NSLog(@"Dict: %@", venueName);
+             
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
