@@ -37,6 +37,7 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     
     self.locationManager = [[CLLocationManager alloc] init];
 }
