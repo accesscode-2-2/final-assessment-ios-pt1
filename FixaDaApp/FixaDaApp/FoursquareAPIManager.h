@@ -11,8 +11,10 @@
 
 @interface FoursquareAPIManager : NSObject
 
+@property (nonatomic) NSMutableArray *listOfPlaces;
+
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion;
+           completion:(void(^)(NSMutableArray *data))completion;
 
 @end
