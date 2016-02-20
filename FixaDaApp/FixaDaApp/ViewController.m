@@ -44,7 +44,7 @@ CLLocationManagerDelegate
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    [self setCurrentLocation];
+    //    [self setCurrentLocation];
     [self startMaps];
 }
 
@@ -91,7 +91,7 @@ CLLocationManagerDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.005f,0.005f);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.03f,0.03f);
     CLLocationCoordinate2D coordinate = location.coordinate;
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
@@ -101,7 +101,7 @@ CLLocationManagerDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
     __weak typeof(self) weakSelf = self;
-    [FoursquareAPIManager findSomething:@"venues"
+    [FoursquareAPIManager findSomething:@"music"
                              atLocation:location
                              completion:^(NSArray *data){
                                  
@@ -126,27 +126,16 @@ CLLocationManagerDelegate
 
 # pragma mark - Charles' Methods
 
-- (void)setCurrentLocation
-{
-    
-    if (self.locationManager == nil){
-        self.locationManager = [[CLLocationManager alloc]init];
-    }
-    
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-}
-
 - (void)startMaps
 {
-    self.mapView.delegate = self;
-    self.hasUserLocation = YES;
     self.mapView.showsUserLocation = YES;
+    self.mapView.delegate = self;
 }
 
 - (void)showPinsForPlaces
 {
     [self.mapView removeAnnotations:self.mapView.annotations];
+    
     for (NSDictionary *venueResults in self.venues) {
         double lat = [venueResults[@"location"][@"lat"] doubleValue];
         double lng = [venueResults[@"location"][@"lng"] doubleValue];
@@ -156,5 +145,16 @@ CLLocationManagerDelegate
         [self.mapView addAnnotation:pin];
     }
 }
+// don't need this
+//- (void)setCurrentLocation
+//{
+//
+//    if (self.locationManager == nil){
+//        self.locationManager = [[CLLocationManager alloc]init];
+//    }
+//
+//    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//}
 
 @end
