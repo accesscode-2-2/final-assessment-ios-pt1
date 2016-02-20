@@ -26,6 +26,7 @@ MKMapViewDelegate
 @property (nonatomic, assign) BOOL foundPlaces;
 
 @property (nonatomic) NSArray *venues;
+@property (nonatomic) NSString *name;
 
 @end
 
@@ -107,6 +108,13 @@ MKMapViewDelegate
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
+                                     
+                                     
+                                     for (NSDictionary *venue in self.venues) {
+                                         self.name = venue[@"name"];
+                                         [self.venues arrayByAddingObject:self.name];
+                                     }
+                                     
                                      
                                  }];
 }

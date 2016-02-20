@@ -44,6 +44,16 @@
 //        NSString *name = [venue objectForKey:@"name"];
         
         
+//        
+//        NSArray *data = [NSArray arr]
+//        NSData *myData = [NSKeyedArchiver archivedDataWithRootObject:venue];
+//        
+//
+//        
+//        
+//        completion(myData);
+
+        
         NSLog(@"%@", responseObject);
 
         
