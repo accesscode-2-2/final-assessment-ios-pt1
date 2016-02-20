@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D31B3791C792A6700171150 /* VenueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D31B3781C792A6700171150 /* VenueObject.m */; };
-		4D7723DC1C7920F30067969D /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7723DB1C7920F30067969D /* APIManager.m */; };
 		79510F25E25C142657CE2DC4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C1C5BEFC8D1D1F43B84295A /* libPods.a */; };
 		8D4F05B61C710A8E003B3131 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4F05B51C710A8E003B3131 /* main.m */; };
 		8D4F05B91C710A8E003B3131 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D4F05B81C710A8E003B3131 /* AppDelegate.m */; };
@@ -24,8 +23,6 @@
 /* Begin PBXFileReference section */
 		4D31B3771C792A6700171150 /* VenueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenueObject.h; sourceTree = "<group>"; };
 		4D31B3781C792A6700171150 /* VenueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenueObject.m; sourceTree = "<group>"; };
-		4D7723DA1C7920F30067969D /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
-		4D7723DB1C7920F30067969D /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		51DA72322BD0057FB2DF45ED /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5C1C5BEFC8D1D1F43B84295A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D4F05B11C710A8E003B3131 /* FixaDaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FixaDaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,8 +90,6 @@
 			children = (
 				8D4F05B71C710A8E003B3131 /* AppDelegate.h */,
 				8D4F05B81C710A8E003B3131 /* AppDelegate.m */,
-				4D7723DA1C7920F30067969D /* APIManager.h */,
-				4D7723DB1C7920F30067969D /* APIManager.m */,
 				8D4F05BA1C710A8E003B3131 /* ViewController.h */,
 				8D4F05BB1C710A8E003B3131 /* ViewController.m */,
 				8DB9ED8E1C722B12003A03E0 /* FoursquareAPIManager.h */,
@@ -252,7 +247,6 @@
 				8D4F05B61C710A8E003B3131 /* main.m in Sources */,
 				8DB9ED901C722B13003A03E0 /* FoursquareAPIManager.m in Sources */,
 				4D31B3791C792A6700171150 /* VenueObject.m in Sources */,
-				4D7723DC1C7920F30067969D /* APIManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

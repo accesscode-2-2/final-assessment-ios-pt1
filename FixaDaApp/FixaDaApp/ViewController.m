@@ -10,7 +10,6 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
-#import "APIManager.h"
 #import "VenueObject.h"
 
 @interface ViewController ()
@@ -22,11 +21,8 @@ MKMapViewDelegate
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (nonatomic) CLLocationManager *locationManager;
-
 @property (nonatomic, assign) BOOL foundPlaces;
-
 @property (nonatomic) NSMutableArray *venues;
 
 @end
@@ -46,13 +42,6 @@ MKMapViewDelegate
     
     self.venues = [[NSMutableArray alloc] init];
 
-    
-//    self.venues = @[ @"I", @"had", @"a", @"difficult", @"time", @"passing", @"the", @"api", @"results", @"back", @"to", @"this", @"view", @"controller"];
-
-//    NSString *searchTerm = @"music";
-//    [self.makeNewFourSquareAPIRequestWithSearchTerm:searchTerm callbackBlock:^{ //make an API request
-//        [self.tableView reloadData]; // reload table data
-//    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -78,13 +67,9 @@ MKMapViewDelegate
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
 
-// original info:
     VenueObject *venue = self.venues[indexPath.row];
     NSString *name = venue.name; // this comes from the api call...
     cell.textLabel.text = name;
-    
-//    NSString *venueToPass = self.venues[indexPath.row];
-//    cell.textLabel.text = venueToPass;
     
     return cell;
 }
@@ -117,7 +102,7 @@ MKMapViewDelegate
                                  atLocation:location
                                  completion:^(NSMutableArray *data){
                                      
-                                     self.venues = data;
+                                     self.venues = data; // pull data with the block!
                                      
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
@@ -128,12 +113,11 @@ MKMapViewDelegate
 
 - (void)showPins
 {
-//    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (VenueObject *venue in self.venues) {
         double lat = venue.lat;
         double lng = venue.lng;
-        
     
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
