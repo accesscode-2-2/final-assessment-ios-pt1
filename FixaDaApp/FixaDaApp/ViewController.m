@@ -100,17 +100,18 @@ MKMapViewDelegate
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
-        __weak typeof(self) weakSelf = self;
+    self.venues = [[NSArray alloc]init];
+    
+    __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
-                                     NSLog(@"data %@", data);
                                      weakSelf.venues = data;
                                      NSLog(@"venues %@", weakSelf.venues);
-                                     
-                                     [weakSelf.tableView reloadData];
-                                     [weakSelf showPins];
+                                     NSLog(@"venues count is %ld", weakSelf.venues.count);
+                                     [self.tableView reloadData];
+                                     [self showPins];
                                      
                                  }];
 }
