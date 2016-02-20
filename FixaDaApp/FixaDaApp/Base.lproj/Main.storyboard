@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QhC-Y4-i8h">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BMq-V3-f2f">
-                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <rect key="frame" x="0.0" y="240" width="600" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="4Wd-lS-p0j" style="IBUITableViewCellStyleDefault" id="5cm-8d-a5a">
@@ -48,7 +48,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="BMq-V3-f2f" firstAttribute="top" secondItem="QhC-Y4-i8h" secondAttribute="bottom" id="829-uy-XA8"/>
-                            <constraint firstItem="QhC-Y4-i8h" firstAttribute="height" secondItem="BMq-V3-f2f" secondAttribute="height" multiplier="0.2" id="DcL-ga-xdl"/>
+                            <constraint firstItem="QhC-Y4-i8h" firstAttribute="height" secondItem="BMq-V3-f2f" secondAttribute="height" multiplier="0.4" constant="96" id="DcL-ga-xdl"/>
                             <constraint firstAttribute="trailing" secondItem="BMq-V3-f2f" secondAttribute="trailing" id="Ddx-sp-gAW"/>
                             <constraint firstItem="BMq-V3-f2f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PGd-F5-XwA"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PS4-bX-CJK"/>
