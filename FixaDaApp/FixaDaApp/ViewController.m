@@ -44,7 +44,11 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
 }
+
 
 
 # pragma mark - Table view datasource
