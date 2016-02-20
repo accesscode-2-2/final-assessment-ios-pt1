@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface ViewController ()
 <
@@ -32,18 +33,24 @@ MKMapViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+        
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
+
 }
 
 
@@ -56,7 +63,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,6 +71,7 @@ MKMapViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
     NSDictionary *venue = self.venues[indexPath.row];
+
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
     
@@ -94,7 +102,7 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager   findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
