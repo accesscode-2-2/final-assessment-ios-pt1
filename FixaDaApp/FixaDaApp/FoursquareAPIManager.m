@@ -33,8 +33,6 @@
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
     
-    NSLog(@"%@",url);
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     [manager GET:url
@@ -51,7 +49,6 @@
     {
         NSLog(@"Error: %@", error.localizedDescription);
     }];
-
 }
 
 @end
