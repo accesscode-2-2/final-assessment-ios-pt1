@@ -14,7 +14,7 @@
 
 @implementation FoursquareAPIManager
 
-// 40.741836, -74.004397
+// 40.741836, -74.004397 Spotify 
 
 /* https://api.foursquare.com/v2/venues/search?client_id=IN4V05KYYXLPDXGIHMCDSPVIAG30BTOG4NC3AEAYFYIQZID0%20&client_secret=CD31L2IZKSYQ1AAGTHQQEF2GHXJLI43CXYV1KVCEEUQZQ2G4%20&v=20130815%20&ll=40.741836,-74.004397%20&query=venues%20&limit=50
  
