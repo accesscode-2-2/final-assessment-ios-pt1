@@ -19,13 +19,14 @@
                         <rect key="frame" x="8" y="4" width="304" height="103"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOi-fV-wZH">
-                                <rect key="frame" x="8" y="8" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="8" y="8" width="42" height="19"/>
+                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T2B-m2-3hb">
-                                <rect key="frame" x="190" y="34" width="76" height="30"/>
+                                <rect key="frame" x="194" y="32" width="72" height="29"/>
+                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="15"/>
                                 <state key="normal" title="No contact">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -34,7 +35,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BoR-pS-L8G">
-                                <rect key="frame" x="266" y="34" width="30" height="30"/>
+                                <rect key="frame" x="266" y="32" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="IaI-HL-Zp6"/>
                                     <constraint firstAttribute="width" constant="30" id="bWX-dF-llz"/>
@@ -44,10 +45,18 @@
                                     <action selector="phoneNumberClicked:" destination="8ZD-EF-mbe" eventType="touchUpInside" id="zgR-ra-ZYu"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2e-Ul-Tdn">
+                                <rect key="frame" x="8" y="40" width="30" height="14"/>
+                                <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="q2e-Ul-Tdn" firstAttribute="leading" secondItem="AOi-fV-wZH" secondAttribute="leading" id="2GP-vk-YG4"/>
                             <constraint firstItem="T2B-m2-3hb" firstAttribute="top" secondItem="AOi-fV-wZH" secondAttribute="bottom" constant="5" id="2Rc-rW-SV2"/>
+                            <constraint firstItem="q2e-Ul-Tdn" firstAttribute="centerY" secondItem="T2B-m2-3hb" secondAttribute="centerY" id="HSE-YM-Ydo"/>
                             <constraint firstItem="AOi-fV-wZH" firstAttribute="leading" secondItem="qzb-Vd-SWw" secondAttribute="leading" constant="8" id="ZLU-ET-54K"/>
                             <constraint firstItem="BoR-pS-L8G" firstAttribute="leading" secondItem="T2B-m2-3hb" secondAttribute="trailing" id="bWu-Aq-hqF"/>
                             <constraint firstAttribute="trailing" secondItem="BoR-pS-L8G" secondAttribute="trailing" constant="8" id="s5P-pp-nyU"/>
@@ -77,6 +86,7 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="anyoneHereLabel" destination="q2e-Ul-Tdn" id="TdR-Zn-1IP"/>
                 <outlet property="phoneNumber" destination="T2B-m2-3hb" id="Kl1-dd-8vc"/>
                 <outlet property="title" destination="AOi-fV-wZH" id="Vyz-KF-Y3Q"/>
             </connections>

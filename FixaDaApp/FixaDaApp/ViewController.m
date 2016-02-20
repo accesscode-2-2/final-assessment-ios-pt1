@@ -84,10 +84,12 @@ MKMapViewDelegate
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
     cell.title.text = name;
-    if (venue[@"contact"][@"phone"]) {
-        cell.phoneNumber.tintColor = [UIColor blueColor];
-    [cell.phoneNumber setTitle:venue[@"contact"][@"phone"] forState:UIControlStateNormal];
+    cell.anyoneHereLabel.text = venue[@"hereNow"][@"summary"];
+    if (venue[@"contact"][@"formattedPhone"]) {
+        [cell.phoneNumber setTintColor: [UIColor blueColor]];
+    [cell.phoneNumber setTitle:venue[@"contact"][@"formattedPhone"] forState:UIControlStateNormal];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

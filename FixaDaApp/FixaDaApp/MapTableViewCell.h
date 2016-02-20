@@ -11,6 +11,7 @@
 @interface MapTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIButton *phoneNumber;
+@property (weak, nonatomic) IBOutlet UILabel *anyoneHereLabel;
 
 
 @end

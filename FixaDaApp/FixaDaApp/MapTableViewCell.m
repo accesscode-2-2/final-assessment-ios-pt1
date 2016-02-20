@@ -15,7 +15,8 @@
 }
 - (IBAction)phoneNumberClicked:(UIButton *)sender {
     NSString *cleanedString = [[self.phoneNumber.titleLabel.text componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"0123456789-+()"] invertedSet]] componentsJoinedByString:@""];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", cleanedString]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", cleanedString]];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
