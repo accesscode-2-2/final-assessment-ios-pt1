@@ -112,8 +112,7 @@ MKMapViewDelegate
                                      
                                      
                                  }];
-    
-//     NSLog(@"Ven: %@", self.venues);
+
 }
 
 
