@@ -33,10 +33,13 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.foundPlaces = NO;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
     
     self.locationManager = [[CLLocationManager alloc] init];
 }
@@ -44,6 +47,7 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,7 +60,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,7 +78,9 @@ MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
+    NSLog(@"what");
     if (!self.foundPlaces) {
+        
         self.foundPlaces = YES;
         
         [self zoomToLocation:userLocation.location];
@@ -97,7 +103,6 @@ MKMapViewDelegate
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
