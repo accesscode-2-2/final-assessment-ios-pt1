@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -33,6 +34,8 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.venues = [[NSArray alloc] init];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -40,13 +43,16 @@ MKMapViewDelegate
     
     self.locationManager = [[CLLocationManager alloc] init];
     
-    [self.locationManager requestWhenInUseAuthorization];
-    self.mapView.showsUserLocation = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];
+    self.mapView.showsUserLocation = YES;
+
 }
 
 
@@ -77,6 +83,8 @@ MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
+    
+    NSLog(@"mapview delegate didUpdateUserlocation");
     if (!self.foundPlaces) {
         self.foundPlaces = YES;
         
@@ -96,14 +104,14 @@ MKMapViewDelegate
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
-        __weak typeof(self) weakSelf = self;
+        //__weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
-                                     weakSelf.venues = data;
-                                     [weakSelf.tableView reloadData];
-                                     [weakSelf showPins];
+                                     self.venues = data;
+                                     [self.tableView reloadData];
+                                     [self showPins];
                                      
                                  }];
 }
