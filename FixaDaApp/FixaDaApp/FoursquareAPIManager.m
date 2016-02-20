@@ -14,6 +14,7 @@
 
 @implementation FoursquareAPIManager
 
+
 /**
  
  https://api.foursquare.com/v2/venues/search
@@ -41,20 +42,15 @@
      
     {
         NSDictionary *venue = [[responseObject objectForKey:@"response"]objectForKey:@"venues"];
-//        NSString *name = [venue objectForKey:@"name"];
-        
-        
-//        
-//        NSArray *data = [NSArray arr]
-//        NSData *myData = [NSKeyedArchiver archivedDataWithRootObject:venue];
-//        
-//
-//        
-//        
-//        completion(myData);
 
-        
-        NSLog(@"%@", responseObject);
+
+        for (venue in venue) {
+            NSString *name = [venue objectForKey:@"name"];
+                 NSLog(@"%@",name);
+
+            
+        }
+     
 
         
     } failure:^(NSURLSessionTask *operation, NSError *error)

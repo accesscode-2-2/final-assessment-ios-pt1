@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
 #import <CoreLocation/CoreLocation.h>
+#import "APIResults.h"
 
 @interface ViewController ()
 <
@@ -27,6 +28,8 @@ MKMapViewDelegate
 
 @property (nonatomic) NSArray *venues;
 @property (nonatomic) NSString *name;
+@property (strong, nonatomic) NSMutableArray *searchResults;
+
 
 @end
 
@@ -63,16 +66,16 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.venues.count;
+    return self.searchResults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
-    
-    NSDictionary *venue = self.venues[indexPath.row];
-    NSString *name = venue[@"name"];
-    cell.textLabel.text = name;
+        
+    APIResults *currentResult = self.searchResults[indexPath.row];
+    cell.textLabel.text = currentResult.name;
+
     
     return cell;
 }
@@ -110,9 +113,16 @@ MKMapViewDelegate
                                      [weakSelf showPins];
                                      
                                      
+                                     self.searchResults = [[NSMutableArray alloc] init];
+                                     
                                      for (NSDictionary *venue in self.venues) {
-                                         self.name = venue[@"name"];
-                                         [self.venues arrayByAddingObject:self.name];
+                                         NSString *name = venue[@"name"];
+//                                         [self.venues arrayByAddingObject:self.name];
+                                     
+                                         APIResults *searchObject = [[APIResults alloc] init];
+                                         searchObject.name = name;
+                                         [self.searchResults addObject:searchObject];
+
                                      }
                                      
                                      

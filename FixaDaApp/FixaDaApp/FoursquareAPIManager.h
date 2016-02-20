@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface FoursquareAPIManager : NSObject
+@property (nonatomic) NSArray *data;
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocationCoordinate2D *)location
