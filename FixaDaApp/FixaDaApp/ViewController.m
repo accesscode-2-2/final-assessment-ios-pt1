@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 #import "APIManager.h"
+#import "VenueObject.h"
 
 @interface ViewController ()
 <
@@ -26,7 +27,7 @@ MKMapViewDelegate
 
 @property (nonatomic, assign) BOOL foundPlaces;
 
-@property (nonatomic) NSArray *venues;
+@property (nonatomic) NSMutableArray *venues;
 
 @end
 
@@ -43,7 +44,10 @@ MKMapViewDelegate
     
     self.mapView.delegate = self;
     
-    self.venues = @[ @"I", @"had", @"a", @"difficult", @"time", @"passing", @"the", @"api", @"results", @"back", @"to", @"this", @"view", @"controller"];
+    self.venues = [[NSMutableArray alloc] init];
+
+    
+//    self.venues = @[ @"I", @"had", @"a", @"difficult", @"time", @"passing", @"the", @"api", @"results", @"back", @"to", @"this", @"view", @"controller"];
 
 //    NSString *searchTerm = @"music";
 //    [self.makeNewFourSquareAPIRequestWithSearchTerm:searchTerm callbackBlock:^{ //make an API request
@@ -75,12 +79,12 @@ MKMapViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
 
 // original info:
-//    NSDictionary *venue = self.venues[indexPath.row];
-//    NSString *name = venue[@"name"]; // this comes from the api call...
-//    cell.textLabel.text = name;
+    VenueObject *venue = self.venues[indexPath.row];
+    NSString *name = venue.name; // this comes from the api call...
+    cell.textLabel.text = name;
     
-    NSString *venueToPass = self.venues[indexPath.row];
-    cell.textLabel.text = venueToPass;
+//    NSString *venueToPass = self.venues[indexPath.row];
+//    cell.textLabel.text = venueToPass;
     
     return cell;
 }
@@ -111,7 +115,9 @@ MKMapViewDelegate
         __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
-                                 completion:^(NSArray *data){
+                                 completion:^(NSMutableArray *data){
+                                     
+                                     self.venues = data;
                                      
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
@@ -124,17 +130,15 @@ MKMapViewDelegate
 {
 //    [self.mapView removeAnnotations:self.mapView.annotations];
     
-//    for (NSDictionary *venue in self.venues) {
-//        double lat = [venue[@"location"][@"lat"] doubleValue];
-//        double lng = [venue[@"location"][@"lng"] doubleValue];
+    for (VenueObject *venue in self.venues) {
+        double lat = venue.lat;
+        double lng = venue.lng;
         
-        double lat = [@"37.323605" doubleValue];
-        double lng = [@"-122.023448" doubleValue];
-        
+    
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
-//    }
+    }
 }
 
 

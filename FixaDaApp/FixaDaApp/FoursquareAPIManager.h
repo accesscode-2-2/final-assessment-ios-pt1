@@ -17,8 +17,9 @@
 
 //@property (weak, nonatomic) id <VenuePassingDelegate> delegate; 
 
+
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion;
+           completion:(void(^)(NSMutableArray *data))completion;
 
 @end

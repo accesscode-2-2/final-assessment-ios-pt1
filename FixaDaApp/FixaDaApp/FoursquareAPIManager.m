@@ -8,13 +8,14 @@
 
 #import "FoursquareAPIManager.h"
 #import <AFNetworking/AFNetworking.h>
+#import "VenueObject.h"
 
 #define kFoursquareAPIClientID     @"GWKJBVWFYBJQ02T3TRBB4VBL24AIO4TCMJCGIQ5ADKVKJXGP"
 #define kFoursquareAPIClientSecret @"2WMEZCDQNKNB5XAE5F4BY1VHBK1HITYRU1JEVCOAD2QRLXDJ"
 
 @interface FoursquareAPIManager ()
 
-@property (nonatomic, strong) NSArray *venue; // why can't I call "self" in this class?
+//@property (nonatomic, strong) NSArray *venue; // why can't I call "self" in this class?
 
 @end
 
@@ -34,16 +35,12 @@
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion
+           completion:(void(^)(NSMutableArray *data))completion
 {
-    
-
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
     
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
-    
-//    NSLog(@"url: %@", url);
-    
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -75,15 +72,28 @@
                 NSString *lat = [[venue objectForKey:@"location"]objectForKey:@"lat"];
                 NSString *lng = [[venue objectForKey:@"location"]objectForKey:@"lng"];
                 
-                [venueArray addObject:venueName];
-                [venueLat addObject:lat];
-                [venueLng addObject:lng];
+                double latDbl = lat.doubleValue;
+                double lngDbl = lng.doubleValue;
+                
+                VenueObject *venue = [[VenueObject alloc] init];
+                
+                venue.name = venueName;
+                venue.lat = latDbl;
+                venue.lng = lngDbl;
+                
+                [locations addObject:venue]; // add to array
+                
+                
+//                [venueArray addObject:venueName];
+//                [venueLat addObject:lat];
+//                [venueLng addObject:lng];
                 
             }
+            completion(locations);
 
-            NSLog(@"venue: %@", venueArray);
-            NSLog(@"lat: %@", venueLat);
-            NSLog(@"lng: %@", venueLng); 
+//            NSLog(@"venue: %@", venueArray);
+//            NSLog(@"lat: %@", venueLat);
+//            NSLog(@"lng: %@", venueLng); 
         
         }
     
