@@ -39,7 +39,6 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
-        //NSLog(@"%@",responseObject[@"response"][@"venues"]);
         
         NSArray *venues = responseObject[@"response"][@"venues"];
         

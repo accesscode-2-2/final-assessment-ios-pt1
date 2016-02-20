@@ -104,14 +104,14 @@ MKMapViewDelegate
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
-        //__weak typeof(self) weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
-                                     self.venues = data;
-                                     [self.tableView reloadData];
-                                     [self showPins];
+                                     weakSelf.venues = data;
+                                     [weakSelf.tableView reloadData];
+                                     [weakSelf showPins];
                                      
                                  }];
 }
