@@ -8,7 +8,6 @@
 
 #import "FoursquareAPIManager.h"
 #import <AFNetworking/AFNetworking.h>
-#import "PlacesSingleton.h"
 #import "Venue.h"
 
 
@@ -34,7 +33,7 @@
     
     
     
-    NSMutableArray *listOfPlaces = [PlacesSingleton sharedManager].locations;
+    NSMutableArray *listOfPlaces = [[NSMutableArray alloc]init];
     
 
     NSString *url = [NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/search?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];

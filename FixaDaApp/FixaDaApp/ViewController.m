@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
-#import "PlacesSingleton.h"
 #import "Venue.h"
 
 @interface ViewController ()
@@ -54,19 +53,6 @@ MKMapViewDelegate
     
     // Location delegates
     self.locationManager.delegate = self;
-    
-}
-
-- (void)callTheAPI {
-
-    double latitude = [self.latitude doubleValue];
-    double longitude = [self.longitude doubleValue];
-    
-    CLLocation *actualLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-    
-    [FoursquareAPIManager findSomething:@"poop" atLocation:actualLocation completion:^(NSArray *data) {
-        NSLog(@"sure");
-    }];
     
 }
 
@@ -117,9 +103,9 @@ MKMapViewDelegate
     CLLocation *location = locations.lastObject;
     NSLog(@"%f %f", location.coordinate.latitude, location.coordinate.longitude);
     
-    [FoursquareAPIManager findSomething:@"music" atLocation:location completion:^(NSArray *data) {
+    [FoursquareAPIManager findSomething:@"music" atLocation:location completion:^(NSMutableArray *data) {
         
-        self.soTired = [PlacesSingleton sharedManager].locations;
+        self.soTired = data;
         
         NSLog(@"%@", self.soTired);
         
@@ -160,25 +146,13 @@ MKMapViewDelegate
 
 - (void)showPins {
     
-    NSMutableArray *locations = [PlacesSingleton sharedManager].locations;
-    for (Venue *venue in locations){
+    for (Venue *venue in self.soTired){
 
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(venue.latitude, venue.longitude);
         [self.mapView addAnnotation:point];
     }
     
-    
-//    [self.mapView removeAnnotations:self.mapView.annotations];
-    
-//    for (NSDictionary *venue in self.venues) {
-//        double lat = [venue[@"location"][@"lat"] doubleValue];
-//        double lng = [venue[@"location"][@"lng"] doubleValue];
-//        
-//        MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-//        point.coordinate = CLLocationCoordinate2DMake(lat, lng);
-//        [self.mapView addAnnotation:point];
-//    }
 }
 
 @end
