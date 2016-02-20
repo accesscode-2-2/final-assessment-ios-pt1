@@ -92,7 +92,6 @@ MKMapViewDelegate
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
     [self.mapView setRegion:regionThatFits animated:YES];
-    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
