@@ -23,14 +23,17 @@
  &ll=40.7,-74
  &query=sushi
  
-**/
+ **/
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
+
 {
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
+    
+    NSLog(@"url - %@", url);
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -38,13 +41,15 @@
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
-    {
-        
-    } failure:^(NSURLSessionTask *operation, NSError *error)
-    {
-        NSLog(@"Error: %@", error);
-    }];
-
+     {
+         completion(responseObject[@"response"][@"venues"]);
+     } failure:^(NSURLSessionTask *operation, NSError *error)
+     {
+         NSLog(@"Error: %@", error);
+     }];
+    
 }
+
+
 
 @end
