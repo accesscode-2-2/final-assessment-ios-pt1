@@ -39,6 +39,10 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
+        NSDictionary *response = [responseObject objectForKey:@"response"];
+        NSArray *venues = [response objectForKey:@"venues"];
+        NSLog(@"%@", venues);
+        completion(venues);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
