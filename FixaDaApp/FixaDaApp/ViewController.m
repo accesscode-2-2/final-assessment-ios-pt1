@@ -44,6 +44,7 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,7 +57,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,6 +69,15 @@ MKMapViewDelegate
     cell.textLabel.text = name;
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    MKPointAnnotation* point = self.mapView.annotations[indexPath.row];
+    point.title = self.venues[indexPath.row][@"name"];
+    [self.mapView selectAnnotation:point animated:YES];
+    
 }
 
 # pragma mark - Map view delegate
@@ -84,7 +94,7 @@ MKMapViewDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.05f,0.05f);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.01f,0.01f);
     CLLocationCoordinate2D coordinate = location.coordinate;
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
@@ -94,10 +104,11 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager findSomething:@"sushi"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
+                                     NSLog(@"%@", data);
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
