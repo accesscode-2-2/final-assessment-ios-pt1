@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface ViewController ()
 <
@@ -24,7 +25,7 @@ MKMapViewDelegate
 
 @property (nonatomic, assign) BOOL foundPlaces;
 
-@property (nonatomic) NSArray *venues;
+@property (nonatomic) NSDictionary *venues;
 
 @end
 
@@ -36,9 +37,22 @@ MKMapViewDelegate
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    self.venues = [[NSDictionary alloc]init];
+    
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    self.mapView.showsUserLocation = YES;
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
+    //CLLocationCoordinate2D locationCoords = CLLocationCoordinate2DMake(self.locationManager.location.coordinate.latitude, self.locationManager.location.coordinate.longitude);
+    
+    CLLocation *myLocation = [[CLLocation alloc]initWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
+    
+    [self fetchVenuesAtLocation:myLocation];
+    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -46,8 +60,7 @@ MKMapViewDelegate
     [super viewDidAppear:animated];
 }
 
-
-# pragma mark - Table view datasource
+#pragma mark - Table view datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -56,16 +69,24 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
-    NSDictionary *venue = self.venues[indexPath.row];
-    NSString *name = venue[@"name"];
+    NSMutableArray *venueArray = [[NSMutableArray alloc]init];
+//    
+    for (NSDictionary *venue in self.venues) {
+    [venueArray addObject:[venue objectForKey:@"name"]];
+    }
+    
+   // NSDictionary *venueDict = [venueArray objectAtIndex:indexPath.row];
+    NSString *name = venueArray[indexPath.row];
     cell.textLabel.text = name;
+    //NSString *name = venue[@"name"];
+//    cell.textLabel.text = nameArray[indexPath.row];
     
     return cell;
 }
@@ -96,9 +117,13 @@ MKMapViewDelegate
         __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
-                                 completion:^(NSArray *data){
+                                 completion:^(NSDictionary *data){
+                                    
+                                     self.venues = data;
                                      
-                                     weakSelf.venues = data;
+                                     NSLog(@"Called");
+                                     NSLog(@"JSONdata:%@",data);
+                                     
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
@@ -114,6 +139,7 @@ MKMapViewDelegate
         double lng = [venue[@"location"][@"lng"] doubleValue];
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+        point.title = venue[@"name"]; //BONUS POINTS MIKE????
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
     }
