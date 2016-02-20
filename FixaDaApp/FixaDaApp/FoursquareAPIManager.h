@@ -13,6 +13,6 @@
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion;
+           completion:(void(^)(id data))completion;
 
 @end
