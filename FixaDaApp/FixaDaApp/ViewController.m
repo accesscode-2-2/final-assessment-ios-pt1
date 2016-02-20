@@ -39,11 +39,22 @@ MKMapViewDelegate
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    
+    self.mapView.showsUserLocation = YES;
+    
+    //just added
+    [self.tableView reloadData];
+    
+//    [self fetchVenuesAtLocation:location];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+        
+
 }
 
 
@@ -56,7 +67,8 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    //added this line
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,7 +106,7 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager findSomething:@"venues"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
@@ -107,7 +119,8 @@ MKMapViewDelegate
 
 - (void)showPins
 {
-    [self.mapView removeAnnotations:self.mapView.annotations];
+    //removed this line
+    //[self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
