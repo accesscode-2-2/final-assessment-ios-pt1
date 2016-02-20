@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -21,6 +22,8 @@ MKMapViewDelegate
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) CLLocationManager *locationManager;
+
+@property (nonatomic) FoursquareAPIManager *foursquareManager;
 
 @property (nonatomic, assign) BOOL foundPlaces;
 
@@ -36,14 +39,15 @@ MKMapViewDelegate
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.mapView.delegate = self;
-    
     self.locationManager = [[CLLocationManager alloc] init];
+
+    [self setupMap];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,7 +60,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -103,6 +107,13 @@ MKMapViewDelegate
                                      [weakSelf showPins];
                                      
                                  }];
+}
+
+- (void)setupMap
+{
+    self.mapView.delegate = self;
+
+    self.mapView.showsUserLocation = YES;
 }
 
 - (void)showPins
