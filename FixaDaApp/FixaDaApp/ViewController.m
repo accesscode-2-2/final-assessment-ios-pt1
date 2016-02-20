@@ -115,11 +115,27 @@ MKMapViewDelegate
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
         double lng = [venue[@"location"][@"lng"] doubleValue];
+//        NSString *name = [venue[@"name"]];
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+//        point.title = name;
+
     }
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+        MKPinAnnotationView *pinView = nil;
+        if (annotation != mapView.userLocation) {
+            pinView.canShowCallout = YES;
+            pinView.animatesDrop = YES;
+        }
+        else {
+            [mapView.userLocation setTitle:@"Current Location"];
+        }
+        return pinView;
+}
+
 
 @end
