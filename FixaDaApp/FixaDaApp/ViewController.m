@@ -23,8 +23,6 @@ MKMapViewDelegate
 
 @property (nonatomic) CLLocationManager *locationManager;
 
-@property (nonatomic) FoursquareAPIManager *foursquareManager;
-
 @property (nonatomic, assign) BOOL foundPlaces;
 
 @property (nonatomic) NSArray *venues;
