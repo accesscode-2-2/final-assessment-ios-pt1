@@ -52,14 +52,16 @@
                  float longitude = [venue[@"location"][@"lng"]floatValue];
 
                  
-                 NSLog(@"%@", name);
-                  NSLog(@"lat: %f lng: %f", latitude, longitude);
+//                  NSLog(@"%@", name);
+//                  NSLog(@"lat: %f lng: %f", latitude, longitude);
                 
              }
 
              
              
             
+             completion(venues);
+             
              
              
         
