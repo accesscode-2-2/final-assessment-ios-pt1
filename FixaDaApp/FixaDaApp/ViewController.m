@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
+#import "APIManager.h"
 
 @interface ViewController ()
 <
@@ -42,8 +43,12 @@ MKMapViewDelegate
     
     self.mapView.delegate = self;
     
-    
+    self.venues = @[ @"I", @"had", @"a", @"difficult", @"time", @"passing", @"the", @"api", @"results", @"back", @"to", @"this", @"view", @"controller"];
 
+//    NSString *searchTerm = @"music";
+//    [self.makeNewFourSquareAPIRequestWithSearchTerm:searchTerm callbackBlock:^{ //make an API request
+//        [self.tableView reloadData]; // reload table data
+//    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -62,16 +67,20 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
+
+// original info:
+//    NSDictionary *venue = self.venues[indexPath.row];
+//    NSString *name = venue[@"name"]; // this comes from the api call...
+//    cell.textLabel.text = name;
     
-    NSDictionary *venue = self.venues[indexPath.row];
-    NSString *name = venue[@"name"];
-    cell.textLabel.text = name;
+    NSString *venueToPass = self.venues[indexPath.row];
+    cell.textLabel.text = venueToPass;
     
     return cell;
 }
@@ -113,16 +122,20 @@ MKMapViewDelegate
 
 - (void)showPins
 {
-    [self.mapView removeAnnotations:self.mapView.annotations];
+//    [self.mapView removeAnnotations:self.mapView.annotations];
     
-    for (NSDictionary *venue in self.venues) {
-        double lat = [venue[@"location"][@"lat"] doubleValue];
-        double lng = [venue[@"location"][@"lng"] doubleValue];
+//    for (NSDictionary *venue in self.venues) {
+//        double lat = [venue[@"location"][@"lat"] doubleValue];
+//        double lng = [venue[@"location"][@"lng"] doubleValue];
+        
+        double lat = [@"37.323605" doubleValue];
+        double lng = [@"-122.023448" doubleValue];
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
-    }
+//    }
 }
+
 
 @end

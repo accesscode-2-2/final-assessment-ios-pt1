@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+//@protocol VenuePassingDelegate <NSObject> // this doesn't work
+//- (void)incomingVenuesFromFoursquare:(NSArray *)venues;
+//@end
+
 @interface FoursquareAPIManager : NSObject
+
+//@property (weak, nonatomic) id <VenuePassingDelegate> delegate; 
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location

@@ -12,6 +12,12 @@
 #define kFoursquareAPIClientID     @"GWKJBVWFYBJQ02T3TRBB4VBL24AIO4TCMJCGIQ5ADKVKJXGP"
 #define kFoursquareAPIClientSecret @"2WMEZCDQNKNB5XAE5F4BY1VHBK1HITYRU1JEVCOAD2QRLXDJ"
 
+@interface FoursquareAPIManager ()
+
+@property (nonatomic, strong) NSArray *venue; // why can't I call "self" in this class?
+
+@end
+
 @implementation FoursquareAPIManager
 
 /**
@@ -25,14 +31,19 @@
  
 **/
 
+
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
 {
+    
+
+    
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
     
 //    NSLog(@"url: %@", url);
+    
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -43,30 +54,44 @@
     {
 //        NSLog(@"response object: %@", responseObject);
         
+        
         if (responseObject != nil) {
             
-        NSArray *venues = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
-            
-//        NSLog(@"venues %@", venues);
+        NSArray *venuesMy = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
         
-            for (NSDictionary *venue in venues) {
+            // one idea: pass over array with delegate
+//          [self.delegate incomingVenuesFromFoursquare:[NSArray venues]];
+            // then sort in the next view!
+            
+            
+            // I can access data from the api, no problem!
+            NSMutableArray *venueArray = [[NSMutableArray alloc] init];
+            NSMutableArray *venueLat = [[NSMutableArray alloc] init];
+            NSMutableArray *venueLng = [[NSMutableArray alloc] init];
+            
+            for (NSDictionary *venue in venuesMy) {
                 
                 NSString *venueName = [venue objectForKey:@"name"];
                 NSString *lat = [[venue objectForKey:@"location"]objectForKey:@"lat"];
                 NSString *lng = [[venue objectForKey:@"location"]objectForKey:@"lng"];
-                NSLog(@"venue name: %@, lat: %@, lng: %@", venueName, lat, lng);
+                
+                [venueArray addObject:venueName];
+                [venueLat addObject:lat];
+                [venueLng addObject:lng];
                 
             }
+
+            NSLog(@"venue: %@", venueArray);
+            NSLog(@"lat: %@", venueLat);
+            NSLog(@"lng: %@", venueLng); 
         
         }
     
-        
-        
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
         NSLog(@"Error: %@", error);
     }];
-
+    
 }
 
 @end
