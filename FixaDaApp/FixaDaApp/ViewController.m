@@ -112,7 +112,6 @@ MKMapViewDelegate
 - (void)setupMap
 {
     self.mapView.delegate = self;
-
     self.mapView.showsUserLocation = YES;
 }
 
