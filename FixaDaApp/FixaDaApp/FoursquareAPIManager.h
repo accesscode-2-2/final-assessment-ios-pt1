@@ -11,6 +11,9 @@
 
 @interface FoursquareAPIManager : NSObject
 
+@property(nonatomic)NSString *venueName;
+@property(nonatomic)NSString *snippetText;
+@property(nonatomic)NSString *dateString;
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion;

@@ -37,8 +37,11 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    
+     [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +59,8 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
+   
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -84,20 +88,33 @@ MKMapViewDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.05f,0.05f);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.05,0.05);
     CLLocationCoordinate2D coordinate = location.coordinate;
-    MKCoordinateRegion region = {coordinate, span};
+    MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
     [self.mapView setRegion:regionThatFits animated:YES];
+    
 }
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager findSomething:@"restaurant"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
+                                     for (NSDictionary *result in data) {
+                                         
+                                                      NSString *venueName = [result objectForKey:@"name"];
+                                         
+                                                       NSLog(@"%@", venueName);
+                                                       NSDictionary *venueLocation = [result objectForKey:@"location"];
+                                                      double latitude = [[venueLocation objectForKey:@"lat"] doubleValue];
+                                                       NSLog(@"%f", latitude);
+                                                      double longitude = [[venueLocation objectForKey:@"lng"] doubleValue];
+                                                       NSLog(@"%f", longitude);
+                                                      
+                                                      CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
+                                 }
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
