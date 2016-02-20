@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -37,13 +38,21 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
+
+    self.venues = [[NSArray alloc] init];
     
     self.locationManager = [[CLLocationManager alloc] init];
+
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    
     [super viewDidAppear:animated];
+     [self.locationManager requestWhenInUseAuthorization];
+
 }
 
 
@@ -52,11 +61,13 @@ MKMapViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,8 +77,8 @@ MKMapViewDelegate
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
-    
     return cell;
+    
 }
 
 # pragma mark - Map view delegate
@@ -78,9 +89,14 @@ MKMapViewDelegate
         self.foundPlaces = YES;
         
         [self zoomToLocation:userLocation.location];
+        
         [self fetchVenuesAtLocation:userLocation.location];
+        
     }
+    
 }
+
+
 
 - (void)zoomToLocation:(CLLocation *)location
 {
@@ -89,6 +105,8 @@ MKMapViewDelegate
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
     [self.mapView setRegion:regionThatFits animated:YES];
+    
+    
 }
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
@@ -102,7 +120,13 @@ MKMapViewDelegate
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
+                                     
+                                     NSLog(@"%@", data);
+                                     
+                                     
                                  }];
+    
+    
 }
 
 - (void)showPins
@@ -116,7 +140,10 @@ MKMapViewDelegate
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+        
+        
     }
+    
 }
 
 @end
