@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -33,17 +34,22 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.mapView.showsUserLocation = YES;
+    self.locationManager = [[CLLocationManager alloc] init];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
     
-    self.locationManager = [[CLLocationManager alloc] init];
+    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
