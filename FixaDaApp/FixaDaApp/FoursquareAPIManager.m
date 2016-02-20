@@ -31,6 +31,7 @@
 {
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
+
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
@@ -39,8 +40,9 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
-        
-    } failure:^(NSURLSessionTask *operation, NSError *error)
+        completion(responseObject[@"response"][@"venues"]);
+    }
+         failure:^(NSURLSessionTask *operation, NSError *error)
     {
         NSLog(@"Error: %@", error);
     }];
