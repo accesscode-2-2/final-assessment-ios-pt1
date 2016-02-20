@@ -139,6 +139,7 @@ MKMapViewDelegate
         double lng = [venue[@"location"][@"lng"] doubleValue];
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+        point.title = venue[@"name"]; //BONUS POINTS MIKE????
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
     }
