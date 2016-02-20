@@ -6,14 +6,16 @@
 //  Copyright © 2016 Michael Kavouras. All rights reserved.
 //
 
+#import "ViewController.h"
 #import "FoursquareAPIManager.h"
 #import <AFNetworking/AFNetworking.h>
+
 
 #define kFoursquareAPIClientID     @"GWKJBVWFYBJQ02T3TRBB4VBL24AIO4TCMJCGIQ5ADKVKJXGP"
 #define kFoursquareAPIClientSecret @"2WMEZCDQNKNB5XAE5F4BY1VHBK1HITYRU1JEVCOAD2QRLXDJ"
 
-@implementation FoursquareAPIManager
 
+@implementation FoursquareAPIManager
 /**
  
  https://api.foursquare.com/v2/venues/search
@@ -25,10 +27,12 @@
  
 **/
 
+
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
 {
+    
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
     
@@ -39,6 +43,7 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
+        NSLog(@"%@", responseObject);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
