@@ -8,6 +8,7 @@
 
 #import "FoursquareAPIManager.h"
 #import <AFNetworking/AFNetworking.h>
+#import <CoreLocation/CoreLocation.h>
 
 #define kFoursquareAPIClientID     @"GWKJBVWFYBJQ02T3TRBB4VBL24AIO4TCMJCGIQ5ADKVKJXGP"
 #define kFoursquareAPIClientSecret @"2WMEZCDQNKNB5XAE5F4BY1VHBK1HITYRU1JEVCOAD2QRLXDJ"
@@ -27,18 +28,23 @@
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion
+           completion:(void(^)(NSDictionary *data))completion
 {
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
-    NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
+    NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret,location.coordinate.latitude,location.coordinate.longitude, query];
     
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
     
     [manager GET:url
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
+        //NSLog(@"JSON: %@",responseObject);
+        NSDictionary *venues = responseObject[@"response"][@"venues"];
+        //NSLog(@"JSON: %@",venues);
+        
+        completion(venues);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
