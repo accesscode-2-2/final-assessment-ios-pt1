@@ -29,6 +29,7 @@
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
 {
+    
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
     
@@ -39,12 +40,15 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
+        NSDictionary *response = responseObject[@"response"];
+        NSArray *venues = response[@"venues"];
+        
+        completion(venues);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
-        NSLog(@"Error: %@", error);
+        NSLog(@"Error: %@", error.localizedDescription);
     }];
-
 }
 
 @end
