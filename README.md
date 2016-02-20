@@ -4,7 +4,7 @@
 
 The previous developer went AWOL. It is your job to come in and save the day. The app should meet all of the following criteria.
 
-* Map should be ~40% height of screen
+* Map should be ~40% height of screen (regardless of screen size)
 * Map should show users current location (blue circle)
 * Map should zoom in to the users current location
 * Foursquare should fetch places near the users current location
