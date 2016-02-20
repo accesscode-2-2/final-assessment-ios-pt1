@@ -14,7 +14,9 @@
 
 @implementation FoursquareAPIManager
 
-/**
+// 40.741836, -74.004397
+
+/* https://api.foursquare.com/v2/venues/search?client_id=IN4V05KYYXLPDXGIHMCDSPVIAG30BTOG4NC3AEAYFYIQZID0%20&client_secret=CD31L2IZKSYQ1AAGTHQQEF2GHXJLI43CXYV1KVCEEUQZQ2G4%20&v=20130815%20&ll=40.741836,-74.004397%20&query=venues%20&limit=50
  
  https://api.foursquare.com/v2/venues/search
  ?client_id=CLIENT_ID
@@ -23,12 +25,13 @@
  &ll=40.7,-74
  &query=sushi
  
-**/
+ */
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
            completion:(void(^)(NSArray *data))completion
 {
+    query = [query stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     NSString *baseURL = @"https://api.foursquare.com/v2/venues/search";
     NSString *url = [NSString stringWithFormat:@"%@?client_id=%@&client_secret=%@&v=20160215&ll=%f,%f&query=%@", baseURL, kFoursquareAPIClientID, kFoursquareAPIClientSecret, location.coordinate.latitude, location.coordinate.longitude, query];
     
@@ -38,13 +41,17 @@
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
-    {
-        
-    } failure:^(NSURLSessionTask *operation, NSError *error)
-    {
-        NSLog(@"Error: %@", error);
-    }];
-
+     {
+         NSDictionary *response = [responseObject objectForKey:@"response"];
+         NSArray *venues = [response objectForKey:@"venues"];
+         completion(venues);
+         NSLog(@"%@", venues);
+         
+     } failure:^(NSURLSessionTask *operation, NSError *error)
+     {
+         NSLog(@"Error: %@", error);
+     }];
+    
 }
 
 @end

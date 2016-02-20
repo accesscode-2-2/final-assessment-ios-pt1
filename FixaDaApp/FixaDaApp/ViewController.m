@@ -5,22 +5,27 @@
 //  Created by Michael Kavouras on 2/14/16.
 //  Copyright © 2016 Michael Kavouras. All rights reserved.
 //
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 #import "ViewController.h"
-#import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
 <
 UITableViewDataSource,
 UITableViewDelegate,
-MKMapViewDelegate
+MKMapViewDelegate,
+CLLocationManagerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) CLLocationManager *locationManager;
+
+@property (nonatomic) CLLocation *location;
+@property (nonatomic) BOOL hasUserLocation;
 
 @property (nonatomic, assign) BOOL foundPlaces;
 
@@ -30,22 +35,24 @@ MKMapViewDelegate
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
+    self.locationManager = [[CLLocationManager alloc] init];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    self.mapView.delegate = self;
-    
-    self.locationManager = [[CLLocationManager alloc] init];
+    [self setCurrentLocation];
+    [self startMaps];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
-
 
 # pragma mark - Table view datasource
 
@@ -56,12 +63,12 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier" forIndexPath:indexPath];
     
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
@@ -84,7 +91,7 @@ MKMapViewDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.05f,0.05f);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.005f,0.005f);
     CLLocationCoordinate2D coordinate = location.coordinate;
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
@@ -93,22 +100,20 @@ MKMapViewDelegate
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
-        __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
-                                 atLocation:location
-                                 completion:^(NSArray *data){
-                                     
-                                     weakSelf.venues = data;
-                                     [weakSelf.tableView reloadData];
-                                     [weakSelf showPins];
-                                     
-                                 }];
+    __weak typeof(self) weakSelf = self;
+    [FoursquareAPIManager findSomething:@"venues"
+                             atLocation:location
+                             completion:^(NSArray *data){
+                                 
+                                 weakSelf.venues = data;
+                                 [weakSelf.tableView reloadData];
+                                 [weakSelf showPinsForVenues];
+                                 
+                             }];
 }
 
-- (void)showPins
+- (void)showPinsForVenues
 {
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
         double lng = [venue[@"location"][@"lng"] doubleValue];
@@ -116,6 +121,39 @@ MKMapViewDelegate
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+    }
+}
+
+# pragma mark - Charles' Methods
+
+- (void)setCurrentLocation
+{
+    
+    if (self.locationManager == nil){
+        self.locationManager = [[CLLocationManager alloc]init];
+    }
+    
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+}
+
+- (void)startMaps
+{
+    self.mapView.delegate = self;
+    self.hasUserLocation = YES;
+    self.mapView.showsUserLocation = YES;
+}
+
+- (void)showPinsForPlaces
+{
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    for (NSDictionary *venueResults in self.venues) {
+        double lat = [venueResults[@"location"][@"lat"] doubleValue];
+        double lng = [venueResults[@"location"][@"lng"] doubleValue];
+        
+        MKPointAnnotation *pin = [[MKPointAnnotation alloc] init];
+        pin.coordinate = CLLocationCoordinate2DMake(lat, lng);
+        [self.mapView addAnnotation:pin];
     }
 }
 
