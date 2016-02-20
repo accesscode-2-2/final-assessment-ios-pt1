@@ -44,7 +44,11 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
 }
+
 
 
 # pragma mark - Table view datasource
@@ -56,7 +60,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -65,6 +69,8 @@ MKMapViewDelegate
     
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
+    
+   
     cell.textLabel.text = name;
     
     return cell;
@@ -80,6 +86,8 @@ MKMapViewDelegate
         [self zoomToLocation:userLocation.location];
         [self fetchVenuesAtLocation:userLocation.location];
     }
+    
+
 }
 
 - (void)zoomToLocation:(CLLocation *)location
@@ -102,11 +110,17 @@ MKMapViewDelegate
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
+                                     
                                  }];
+
 }
+
+
 
 - (void)showPins
 {
+   
+    
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
