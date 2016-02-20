@@ -37,9 +37,9 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
-    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     
     self.locationManager = [[CLLocationManager alloc] init];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -58,7 +58,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,7 +68,7 @@ MKMapViewDelegate
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
-    
+
     return cell;
 }
 
@@ -91,15 +91,16 @@ MKMapViewDelegate
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
     [self.mapView setRegion:regionThatFits animated:YES];
+    [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager findSomething:@"name"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
+
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
