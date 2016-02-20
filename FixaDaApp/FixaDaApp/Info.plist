@@ -4,6 +4,15 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Show you the places!</string>
+	<key>RequestWhenInUseAuthorization</key>
+	<string>homieeeee</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
