@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
+#import "MapTableViewCell.h"
 
 @interface ViewController ()
 <
@@ -19,6 +20,8 @@ MKMapViewDelegate
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *zoomInButton;
+@property (weak, nonatomic) IBOutlet UIButton *zoomOutButton;
 
 @property (nonatomic) CLLocationManager *locationManager;
 
@@ -35,17 +38,29 @@ MKMapViewDelegate
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
     self.mapView.delegate = self;
-    
     self.locationManager = [[CLLocationManager alloc] init];
+    UINib *nib = [UINib nibWithNibName:@"MapTableViewCell" bundle:nil];
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"BeepBoopCellIdentifier"];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setupUI];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
+-(void)setupUI{
+    [[self.zoomInButton layer] setBorderWidth:2.0f];
+    [[self.zoomInButton layer] setBorderColor:[UIColor darkGrayColor].CGColor];
+    
+    [[self.zoomOutButton layer] setBorderWidth:2.0f];
+    [[self.zoomOutButton layer] setBorderColor:[UIColor darkGrayColor].CGColor];
+}
 
 # pragma mark - Table view datasource
 
@@ -56,19 +71,41 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.venues.count != 0) {
+    return self.venues.count;
+    }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
+    MapTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
-    cell.textLabel.text = name;
-    
+    cell.title.text = name;
+    cell.anyoneHereLabel.text = venue[@"hereNow"][@"summary"];
+    if (venue[@"contact"][@"formattedPhone"]) {
+        [cell.phoneNumber setTintColor: [UIColor blueColor]];
+    [cell.phoneNumber setTitle:venue[@"contact"][@"formattedPhone"] forState:UIControlStateNormal];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 70;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    MapTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    for(MKPointAnnotation *annotation in [self.mapView annotations]) {
+        if ([cell.title.text isEqualToString:annotation.title]) {
+            [self.mapView selectAnnotation:annotation animated:YES];
+        }
+    }
+ }
 
 # pragma mark - Map view delegate
 
@@ -80,6 +117,7 @@ MKMapViewDelegate
         [self zoomToLocation:userLocation.location];
         [self fetchVenuesAtLocation:userLocation.location];
     }
+    
 }
 
 - (void)zoomToLocation:(CLLocation *)location
@@ -97,7 +135,7 @@ MKMapViewDelegate
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
+                                     NSLog(@"data %@",data);
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
@@ -115,8 +153,24 @@ MKMapViewDelegate
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
+        point.title = venue[@"name"];
         [self.mapView addAnnotation:point];
     }
+}
+
+# pragma mark - IBActions
+
+- (IBAction)zoomInButtonPressed:(UIButton *)sender {
+    MKCoordinateRegion region = self.mapView.region;
+    region.span.latitudeDelta /= 2.0;
+    region.span.longitudeDelta /= 2.0;
+    [self.mapView setRegion:region animated:YES];
+}
+- (IBAction)zoomOutButtonPressed:(UIButton *)sender {
+    MKCoordinateRegion region = self.mapView.region;
+    region.span.latitudeDelta  = MIN(region.span.latitudeDelta  * 2.0, 180.0);
+    region.span.longitudeDelta = MIN(region.span.longitudeDelta * 2.0, 180.0);
+    [self.mapView setRegion:region animated:YES];
 }
 
 @end

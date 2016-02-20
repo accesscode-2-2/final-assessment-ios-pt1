@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -19,21 +20,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QhC-Y4-i8h">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="240"/>
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BMq-V3-f2f">
-                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <rect key="frame" x="0.0" y="240" width="600" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" red="1" green="0.90196078430000004" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="4Wd-lS-p0j" style="IBUITableViewCellStyleDefault" id="5cm-8d-a5a">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5cm-8d-a5a" id="cpW-0e-B2H">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Wd-lS-p0j">
-                                                    <rect key="frame" x="15" y="0.0" width="570" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -44,22 +46,66 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HO8-Sw-zsd">
+                                <rect key="frame" x="540" y="170" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.93391199820000004" green="0.93391199820000004" blue="0.93391199820000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="CTH-Dp-nx0"/>
+                                    <constraint firstAttribute="height" constant="30" id="uMy-dZ-Deh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="zoomInButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2ce-CY-pAh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Txa-tO-teJ">
+                                <rect key="frame" x="540" y="200" width="30" height="30"/>
+                                <color key="backgroundColor" red="0.93391199818754622" green="0.93391199818754622" blue="0.93391199818754622" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="YhU-2c-QVV"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZEN-JC-7L0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="-">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="zoomOutButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iG4-J5-L7R"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.90196078431372551" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="BMq-V3-f2f" firstAttribute="top" secondItem="Txa-tO-teJ" secondAttribute="bottom" constant="10" id="0sD-cO-daq"/>
                             <constraint firstItem="BMq-V3-f2f" firstAttribute="top" secondItem="QhC-Y4-i8h" secondAttribute="bottom" id="829-uy-XA8"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="height" secondItem="BMq-V3-f2f" secondAttribute="height" multiplier="0.2" id="DcL-ga-xdl"/>
                             <constraint firstAttribute="trailing" secondItem="BMq-V3-f2f" secondAttribute="trailing" id="Ddx-sp-gAW"/>
+                            <constraint firstItem="QhC-Y4-i8h" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="GDI-jo-Q1n"/>
+                            <constraint firstItem="Txa-tO-teJ" firstAttribute="top" secondItem="HO8-Sw-zsd" secondAttribute="bottom" id="Hh0-Xi-fuY"/>
                             <constraint firstItem="BMq-V3-f2f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PGd-F5-XwA"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="PS4-bX-CJK"/>
+                            <constraint firstItem="BMq-V3-f2f" firstAttribute="top" secondItem="QhC-Y4-i8h" secondAttribute="bottom" id="Qew-zz-x2s"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Txa-tO-teJ" secondAttribute="trailing" constant="10" id="bZH-HY-aUR"/>
                             <constraint firstAttribute="trailing" secondItem="QhC-Y4-i8h" secondAttribute="trailing" id="mbZ-IW-xGJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="HO8-Sw-zsd" secondAttribute="trailing" constant="10" id="sUt-Ol-2hp"/>
                             <constraint firstItem="QhC-Y4-i8h" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="sq5-GT-TWp"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="BMq-V3-f2f" secondAttribute="bottom" id="vLg-lx-GXH"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="DcL-ga-xdl"/>
+                                <exclude reference="829-uy-XA8"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="QhC-Y4-i8h" id="SMQ-g7-itJ"/>
                         <outlet property="tableView" destination="BMq-V3-f2f" id="AqN-lY-b3z"/>
+                        <outlet property="zoomInButton" destination="HO8-Sw-zsd" id="ys3-nS-ACm"/>
+                        <outlet property="zoomOutButton" destination="Txa-tO-teJ" id="6KR-cn-y6H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
