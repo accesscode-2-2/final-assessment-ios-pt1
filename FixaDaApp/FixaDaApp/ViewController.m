@@ -58,7 +58,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,6 +66,7 @@ MKMapViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
     NSDictionary *venue = self.venues[indexPath.row];
+    NSLog(@"%@", self.venues);
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
     
@@ -101,9 +102,14 @@ MKMapViewDelegate
                                  completion:^(NSArray *data){
                                      
                                      weakSelf.venues = data;
-                                     [weakSelf.tableView reloadData];
-                                     [weakSelf showPins];
+                                     //NSLog(@"I'm printing from inside the completion block! \n%@", weakSelf.venues);
                                      
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         
+                                         // Back on the main thread, ask the tableview to reload itself.
+                                         [weakSelf.tableView reloadData];
+                                         [weakSelf showPins];
+                                     });
                                  }];
 }
 

@@ -41,7 +41,7 @@
     {
         NSDictionary *response = [responseObject objectForKey:@"response"];
         NSArray *venues = [response objectForKey:@"venues"];
-        NSLog(@"%@", venues);
+        //NSLog(@"%@", venues);
         completion(venues);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
