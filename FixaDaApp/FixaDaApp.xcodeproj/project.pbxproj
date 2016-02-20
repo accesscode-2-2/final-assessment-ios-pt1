@@ -65,8 +65,6 @@
 		8D4F05A81C710A8E003B3131 = {
 			isa = PBXGroup;
 			children = (
-				8DD696391C715048008B4282 /* MapKit.framework */,
-				8DD696371C71503C008B4282 /* CoreLocation.framework */,
 				8D4F05B31C710A8E003B3131 /* FixaDaApp */,
 				8D4F05B21C710A8E003B3131 /* Products */,
 				4BEEF649714455B6084C0C97 /* Pods */,
@@ -85,13 +83,13 @@
 		8D4F05B31C710A8E003B3131 /* FixaDaApp */ = {
 			isa = PBXGroup;
 			children = (
+				8D4F05BD1C710A8E003B3131 /* Main.storyboard */,
 				8D4F05B71C710A8E003B3131 /* AppDelegate.h */,
 				8D4F05B81C710A8E003B3131 /* AppDelegate.m */,
 				8D4F05BA1C710A8E003B3131 /* ViewController.h */,
 				8D4F05BB1C710A8E003B3131 /* ViewController.m */,
 				8DB9ED8E1C722B12003A03E0 /* FoursquareAPIManager.h */,
 				8DB9ED8F1C722B13003A03E0 /* FoursquareAPIManager.m */,
-				8D4F05BD1C710A8E003B3131 /* Main.storyboard */,
 				8D4F05C01C710A8E003B3131 /* Assets.xcassets */,
 				8D4F05C21C710A8E003B3131 /* LaunchScreen.storyboard */,
 				8D4F05C51C710A8E003B3131 /* Info.plist */,
@@ -111,6 +109,8 @@
 		B732D48E4B568A973ACFC068 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8DD696391C715048008B4282 /* MapKit.framework */,
+				8DD696371C71503C008B4282 /* CoreLocation.framework */,
 				5C1C5BEFC8D1D1F43B84295A /* libPods.a */,
 			);
 			name = Frameworks;

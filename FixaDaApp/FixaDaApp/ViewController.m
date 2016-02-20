@@ -5,9 +5,9 @@
 //  Created by Michael Kavouras on 2/14/16.
 //  Copyright © 2016 Michael Kavouras. All rights reserved.
 //
+#import <MapKit/MapKit.h>
 
 #import "ViewController.h"
-#import <MapKit/MapKit.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -28,6 +28,8 @@ MKMapViewDelegate
 
 @end
 
+
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -44,6 +46,11 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
+    self.mapView.showsUserLocation = YES;
+    
 }
 
 
@@ -56,7 +63,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,7 +105,10 @@ MKMapViewDelegate
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
+                                     NSLog(@"data %@", data);
                                      weakSelf.venues = data;
+                                     NSLog(@"venues %@", weakSelf.venues);
+                                     
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
