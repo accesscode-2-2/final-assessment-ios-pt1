@@ -78,7 +78,6 @@ MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-    NSLog(@"what");
     if (!self.foundPlaces) {
         
         self.foundPlaces = YES;
