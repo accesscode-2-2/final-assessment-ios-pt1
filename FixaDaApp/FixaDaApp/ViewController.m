@@ -39,6 +39,7 @@ MKMapViewDelegate
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +57,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
