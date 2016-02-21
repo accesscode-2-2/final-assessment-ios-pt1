@@ -33,19 +33,44 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //self.venues = [[NSArray alloc] init];
+    
+//    self.foundPlaces = NO;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    
+    self.mapView.showsUserLocation = YES;
+    
+//    [self fetchVenuesAtLocation:userLocation.location];
+
+    
+//    self.foundPlaces = YES;
+    
+
+    //just added
+//    [self.tableView reloadData];
+    
+//    [self fetchVenuesAtLocation:location];
+    
+//    [self fetchVenuesAtLocation:];
+    
+    //[self showPins];
+    
+    //[self mapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
 }
-
 
 # pragma mark - Table view datasource
 
@@ -56,7 +81,8 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    //added this line
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,12 +127,16 @@ MKMapViewDelegate
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
-                                     
+                                     //added line
+                                     //[weakSelf mapView];
                                  }];
+    //added line
+//    [self mapView];
 }
 
 - (void)showPins
 {
+    //removed this line
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
@@ -116,7 +146,11 @@ MKMapViewDelegate
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+        //added line
+//        point.title = venue[@"name"];
+
     }
+
 }
 
 @end
