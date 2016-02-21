@@ -8,13 +8,16 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
+
 
 @interface ViewController ()
 <
 UITableViewDataSource,
 UITableViewDelegate,
-MKMapViewDelegate
+MKMapViewDelegate,
+CLLocationManagerDelegate
 >
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -38,7 +41,20 @@ MKMapViewDelegate
     
     self.mapView.delegate = self;
     
-    self.locationManager = [[CLLocationManager alloc] init];
+    [self checkForLocationService];
+    
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+}
+
+- (void)checkForLocationService {
+//    if ([CLLocationManager locationServicesEnabled] ) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        [self.locationManager startUpdatingLocation];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +72,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,13 +86,16 @@ MKMapViewDelegate
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
 # pragma mark - Map view delegate
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     if (!self.foundPlaces) {
         self.foundPlaces = YES;
-        
         [self zoomToLocation:userLocation.location];
         [self fetchVenuesAtLocation:userLocation.location];
     }
@@ -97,7 +116,6 @@ MKMapViewDelegate
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];

@@ -7,6 +7,7 @@
 //
 
 #import "FoursquareAPIManager.h"
+#import <CoreLocation/CoreLocation.h>
 #import <AFNetworking/AFNetworking.h>
 
 #define kFoursquareAPIClientID     @"GWKJBVWFYBJQ02T3TRBB4VBL24AIO4TCMJCGIQ5ADKVKJXGP"
@@ -34,14 +35,10 @@
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
-    [manager GET:url
-      parameters:nil
-        progress:nil
-         success:^(NSURLSessionTask *task, id responseObject)
-    {
-        
-    } failure:^(NSURLSessionTask *operation, NSError *error)
-    {
+    [manager GET:url parameters:nil progress:nil success:^(NSURLSessionTask *task, id responseObject) {
+        NSArray *musicArray = responseObject[@"response"][@"venues"];
+        completion(musicArray);
+    } failure:^(NSURLSessionTask *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
 
