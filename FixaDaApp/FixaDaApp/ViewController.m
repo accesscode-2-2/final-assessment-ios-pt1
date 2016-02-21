@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "FoursquareAPIManager.h"
 
 @interface ViewController ()
@@ -39,11 +40,13 @@ MKMapViewDelegate
     self.mapView.delegate = self;
     
     self.locationManager = [[CLLocationManager alloc] init];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,7 +59,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,7 +69,7 @@ MKMapViewDelegate
     NSDictionary *venue = self.venues[indexPath.row];
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
-    
+
     return cell;
 }
 
@@ -94,10 +97,10 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"music"
+        [FoursquareAPIManager findSomething:@"name"
                                  atLocation:location
                                  completion:^(NSArray *data){
-                                     
+
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
@@ -112,11 +115,27 @@ MKMapViewDelegate
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
         double lng = [venue[@"location"][@"lng"] doubleValue];
+//        NSString *name = [venue[@"name"]];
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
+//        point.title = name;
+
     }
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+        MKPinAnnotationView *pinView = nil;
+        if (annotation != mapView.userLocation) {
+            pinView.canShowCallout = YES;
+            pinView.animatesDrop = YES;
+        }
+        else {
+            [mapView.userLocation setTitle:@"Current Location"];
+        }
+        return pinView;
+}
+
 
 @end
