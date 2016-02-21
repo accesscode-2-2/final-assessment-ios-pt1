@@ -44,11 +44,9 @@ MKMapViewDelegate
     self.mapView.showsUserLocation = YES;
     self.locationManager = [[CLLocationManager alloc] init];
     
-//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-//    [self.locationManager startUpdatingLocation];
+
     self.venues = [[NSMutableArray alloc] init];
-//    CLLocation *myLocation = [[CLLocation alloc]initWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
-//    [self fetchVenuesAtLocation:myLocation];
+
     
 }
 
@@ -110,15 +108,12 @@ MKMapViewDelegate
         [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSMutableArray *data){
-                                     
-                                     self.venues = data;
-                                     
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
                                      
-                                     self.venues = data;
+                                   
                                      
 //                                     for (NSDictionary *venue in self.venues) {
 //                                         NSString *name = venue[@"name"];

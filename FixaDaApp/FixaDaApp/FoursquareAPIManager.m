@@ -67,7 +67,7 @@
                  venue.lng = lngVal;
                  NSLog(@"%@",name);
                  
-                 [locations addObject:venues];
+                 [locations addObject:venue];
              }
              completion(locations);
              
