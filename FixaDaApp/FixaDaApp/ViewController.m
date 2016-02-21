@@ -23,6 +23,7 @@ MKMapViewDelegate
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) CLLocationManager *locationManager;
 @property (nonatomic, assign) BOOL foundPlaces;
+
 @property (nonatomic) NSMutableArray *venues;
 
 @end
@@ -41,7 +42,6 @@ MKMapViewDelegate
     self.mapView.delegate = self;
     
     self.venues = [[NSMutableArray alloc] init];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -68,7 +68,7 @@ MKMapViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
 
     VenueObject *venue = self.venues[indexPath.row];
-    NSString *name = venue.name; // this comes from the api call...
+    NSString *name = venue.name; // this comes from the api call and object...
     cell.textLabel.text = name;
     
     return cell;

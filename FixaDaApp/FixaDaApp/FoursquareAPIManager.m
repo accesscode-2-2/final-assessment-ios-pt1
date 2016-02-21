@@ -28,8 +28,7 @@
  &ll=40.7,-74
  &query=sushi
  
-**/
-
+ **/
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
@@ -46,38 +45,36 @@
       parameters:nil
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
-    {
-        
-        if (responseObject != nil) {
-            
-        NSArray *venuesMy = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
-            
-            for (NSDictionary *venue in venuesMy) {
-                
-                NSString *venueName = [venue objectForKey:@"name"]; // pull info from dictionary
-                NSString *lat = [[venue objectForKey:@"location"]objectForKey:@"lat"];
-                NSString *lng = [[venue objectForKey:@"location"]objectForKey:@"lng"];
-                
-                double latDbl = lat.doubleValue; // convert to doubles
-                double lngDbl = lng.doubleValue;
-                
-                VenueObject *venue = [[VenueObject alloc] init]; // initialize storage object
-                
-                venue.name = venueName; // save in object
-                venue.lat = latDbl;
-                venue.lng = lngDbl;
-                
-                [locations addObject:venue]; // add to object
-                
-            }
-            completion(locations);
-        
-        }
-    
-    } failure:^(NSURLSessionTask *operation, NSError *error)
-    {
-        NSLog(@"Error: %@", error);
-    }];
+     {
+         
+         if (responseObject != nil) {
+             
+             NSArray *venuesMy = [[responseObject objectForKey:@"response"] objectForKey:@"venues"];
+             
+             for (NSDictionary *venue in venuesMy) {
+                 
+                 NSString *venueName = [venue objectForKey:@"name"]; // pull info from dictionary
+                 NSString *lat = [[venue objectForKey:@"location"]objectForKey:@"lat"];
+                 NSString *lng = [[venue objectForKey:@"location"]objectForKey:@"lng"];
+                 
+                 double latDbl = lat.doubleValue; // convert to doubles
+                 double lngDbl = lng.doubleValue;
+                 
+                 VenueObject *venue = [[VenueObject alloc] init]; // initialize storage object
+                 
+                 venue.name = venueName; // save in object
+                 venue.lat = latDbl;
+                 venue.lng = lngDbl;
+                 
+                 [locations addObject:venue]; // add to object
+             }
+             completion(locations);
+         }
+         
+     } failure:^(NSURLSessionTask *operation, NSError *error)
+     {
+         NSLog(@"Error: %@", error);
+     }];
     
 }
 
