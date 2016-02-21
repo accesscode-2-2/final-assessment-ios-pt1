@@ -13,7 +13,7 @@
 @property (nonatomic) NSArray *data;
 
 + (void)findSomething:(NSString *)query
-           atLocation:(CLLocationCoordinate2D *)location
-           completion:(void(^)(NSArray *data))completion;
+           atLocation:(CLLocation *)location
+           completion:(void(^)(NSMutableArray *data))completion;
 
 @end

@@ -26,9 +26,7 @@ MKMapViewDelegate
 
 @property (nonatomic, assign) BOOL foundPlaces;
 
-@property (nonatomic) NSArray *venues;
-@property (nonatomic) NSString *name;
-@property (strong, nonatomic) NSMutableArray *searchResults;
+@property (nonatomic) NSMutableArray *venues;
 
 
 @end
@@ -46,8 +44,12 @@ MKMapViewDelegate
     self.mapView.showsUserLocation = YES;
     self.locationManager = [[CLLocationManager alloc] init];
     
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self.locationManager startUpdatingLocation];
+//    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [self.locationManager startUpdatingLocation];
+    self.venues = [[NSMutableArray alloc] init];
+//    CLLocation *myLocation = [[CLLocation alloc]initWithLatitude:self.locationManager.location.coordinate.latitude longitude:self.locationManager.location.coordinate.longitude];
+//    [self fetchVenuesAtLocation:myLocation];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -66,15 +68,16 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.searchResults.count;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
         
-    APIResults *currentResult = self.searchResults[indexPath.row];
-    cell.textLabel.text = currentResult.name;
+    APIResults *currentResult = self.venues[indexPath.row];
+    NSString *name = currentResult.name;
+    cell.textLabel.text = name;
 
     
     return cell;
@@ -94,7 +97,7 @@ MKMapViewDelegate
 
 - (void)zoomToLocation:(CLLocation *)location
 {
-    MKCoordinateSpan span = MKCoordinateSpanMake(.9,.9);
+    MKCoordinateSpan span = MKCoordinateSpanMake(.9f,.9f);
     CLLocationCoordinate2D coordinate = location.coordinate;
     MKCoordinateRegion region = {coordinate, span};
     MKCoordinateRegion regionThatFits = [self.mapView regionThatFits:region];
@@ -105,25 +108,27 @@ MKMapViewDelegate
 {
         __weak typeof(self) weakSelf = self;
         [FoursquareAPIManager findSomething:@"music"
-                                 atLocation:(__bridge CLLocationCoordinate2D *)(location)
-                                 completion:^(NSArray *data){
+                                 atLocation:location
+                                 completion:^(NSMutableArray *data){
+                                     
+                                     self.venues = data;
                                      
                                      weakSelf.venues = data;
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      
                                      
-                                     self.searchResults = [[NSMutableArray alloc] init];
+                                     self.venues = data;
                                      
-                                     for (NSDictionary *venue in self.venues) {
-                                         NSString *name = venue[@"name"];
-//                                         [self.venues arrayByAddingObject:self.name];
-                                     
-                                         APIResults *searchObject = [[APIResults alloc] init];
-                                         searchObject.name = name;
-                                         [self.searchResults addObject:searchObject];
-
-                                     }
+//                                     for (NSDictionary *venue in self.venues) {
+//                                         NSString *name = venue[@"name"];
+////                                         [self.venues arrayByAddingObject:self.name];
+//                                     
+//                                         APIResults *searchObject = [[APIResults alloc] init];
+//                                         searchObject.name = name;
+//                                         [self.venues addObject:searchObject];
+//
+//                                     }
                                      
                                      
                                  }];
@@ -131,11 +136,11 @@ MKMapViewDelegate
 
 - (void)showPins
 {
-    [self.mapView addAnnotations:self.mapView.annotations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
     
-    for (NSDictionary *venue in self.venues) {
-        double lat = [venue[@"location"][@"lat"] doubleValue];
-        double lng = [venue[@"location"][@"lng"] doubleValue];
+    for (APIResults *venue in self.venues) {
+        double lat = venue.lat;
+        double lng = venue.lng;
         
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
