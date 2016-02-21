@@ -39,6 +39,7 @@
         progress:nil
          success:^(NSURLSessionTask *task, id responseObject)
     {
+        completion(responseObject[@"response"][@"venues"]);
         
     } failure:^(NSURLSessionTask *operation, NSError *error)
     {
