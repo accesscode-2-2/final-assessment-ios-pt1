@@ -120,7 +120,7 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"Venues"
+        [FoursquareAPIManager findSomething:@"music"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
