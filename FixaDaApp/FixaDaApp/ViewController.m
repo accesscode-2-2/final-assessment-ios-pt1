@@ -33,9 +33,9 @@ MKMapViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.venues = [[NSArray alloc] init];
+    //self.venues = [[NSArray alloc] init];
     
-    self.foundPlaces = NO;
+//    self.foundPlaces = NO;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -53,15 +53,15 @@ MKMapViewDelegate
     
 
     //just added
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
 //    [self fetchVenuesAtLocation:location];
     
 //    [self fetchVenuesAtLocation:];
     
-    [self showPins];
+    //[self showPins];
     
-    [self mapView];
+    //[self mapView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -120,7 +120,7 @@ MKMapViewDelegate
 - (void)fetchVenuesAtLocation:(CLLocation *)location
 {
         __weak typeof(self) weakSelf = self;
-        [FoursquareAPIManager findSomething:@"venues"
+        [FoursquareAPIManager findSomething:@"Venues"
                                  atLocation:location
                                  completion:^(NSArray *data){
                                      
@@ -128,7 +128,7 @@ MKMapViewDelegate
                                      [weakSelf.tableView reloadData];
                                      [weakSelf showPins];
                                      //added line
-                                     [weakSelf mapView];
+                                     //[weakSelf mapView];
                                  }];
     //added line
 //    [self mapView];
@@ -137,7 +137,7 @@ MKMapViewDelegate
 - (void)showPins
 {
     //removed this line
-    //[self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *venue in self.venues) {
         double lat = [venue[@"location"][@"lat"] doubleValue];
@@ -147,7 +147,7 @@ MKMapViewDelegate
         point.coordinate = CLLocationCoordinate2DMake(lat, lng);
         [self.mapView addAnnotation:point];
         //added line
-        point.title = venue[@"name"];
+//        point.title = venue[@"name"];
 
     }
 
