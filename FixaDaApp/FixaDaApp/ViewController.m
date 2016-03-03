@@ -37,6 +37,7 @@ MKMapViewDelegate
     self.tableView.dataSource = self;
     
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
     
     self.locationManager = [[CLLocationManager alloc] init];
 }
@@ -44,6 +45,7 @@ MKMapViewDelegate
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 
@@ -56,7 +58,7 @@ MKMapViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.venues.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,6 +66,7 @@ MKMapViewDelegate
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BeepBoopCellIdentifier"];
     
     NSDictionary *venue = self.venues[indexPath.row];
+    NSLog(@"%@", self.venues);
     NSString *name = venue[@"name"];
     cell.textLabel.text = name;
     
@@ -99,9 +102,16 @@ MKMapViewDelegate
                                  completion:^(NSArray *data){
                                      
                                      weakSelf.venues = data;
-                                     [weakSelf.tableView reloadData];
-                                     [weakSelf showPins];
+                                     //NSLog(@"I'm printing from inside the completion block! \n%@", weakSelf.venues);
                                      
+                                     // just in case this is running on another thread, we get
+                                     // back on the main thread to change the UI
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         
+                                         // Back on the main thread, ask the tableview to reload itself.
+                                         [weakSelf.tableView reloadData];
+                                         [weakSelf showPins];
+                                     });
                                  }];
 }
 
