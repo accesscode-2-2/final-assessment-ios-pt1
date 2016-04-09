@@ -10,9 +10,10 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface FoursquareAPIManager : NSObject
+@property (nonatomic) NSArray *data;
 
 + (void)findSomething:(NSString *)query
            atLocation:(CLLocation *)location
-           completion:(void(^)(NSArray *data))completion;
+           completion:(void(^)(NSMutableArray *data))completion;
 
 @end
